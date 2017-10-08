@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.omikronsoft.differentcolor.control.model.ColorPair;
 
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -12,37 +13,62 @@ import java.util.Random;
  * dariusz.lelek@gmail.com
  */
 
-public class GameController {
-    private final Button[] buttons;
+public class GameController implements GameControl{
+    private final Button[] colorButtons;
     private final TextView livesView, scoreView;
     private final GameState gameState = new GameState();
 
     private ColorPair colorPair;
+    private int differentColorButtonIdx = -1;
 
-    public GameController(Button[] buttons, TextView livesView, TextView scoreView) {
-        this.buttons = buttons;
+    public GameController(Button[] colorButtons, TextView livesView, TextView scoreView) {
+        this.colorButtons = colorButtons;
         this.livesView = livesView;
         this.scoreView = scoreView;
     }
 
+    @Override
     public void processButtonClick(int buttonIdx){
+        if(correctButtonGuess(buttonIdx)){
+            gameState.incrementScore();
+        }else{
+            gameState.decrementLives();
+        }
 
+        nextLevel();
     }
 
+    @Override
     public void processTimeOut(){
 
     }
 
-    public void newGame(){
+    @Override
+    public void startNewGame(){
         gameState.reset();
         nextLevel();
+    }
+
+    @Override
+    public int getScore() {
+        return gameState.getScore();
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return gameState.getLives() <= 0;
+    }
+
+    private boolean correctButtonGuess(int buttonIdx){
+        return buttonIdx == differentColorButtonIdx;
     }
 
     private void nextLevel(){
         setButtonsColor(getNewColorPair());
 
-        livesView.setText(gameState.getLives());
-        scoreView.setText(gameState.getScore());
+        gameState.decrementDifference();
+        livesView.setText(String.format(Locale.ENGLISH, "%d", gameState.getLives()));
+        scoreView.setText(String.format(Locale.ENGLISH, "%d", gameState.getScore()));
     }
 
     private void setButtonsColor(ColorPair colorPair){
@@ -54,18 +80,18 @@ public class GameController {
     }
 
     private void setDefaultColorOnButtons(int defaultColor){
-        for(Button button : buttons){
+        for(Button button : colorButtons){
             button.setBackgroundColor(defaultColor);
         }
     }
 
     private void setDifferentColorOnButton(int differentColor){
-        int buttonIdx = new Random().nextInt(buttons.length);
-        buttons[buttonIdx].setBackgroundColor(differentColor);
+        differentColorButtonIdx = new Random().nextInt(colorButtons.length);
+        colorButtons[differentColorButtonIdx].setBackgroundColor(differentColor);
     }
 
     private ColorPair getNewColorPair(){
-        colorPair = ColorPair.getByDifficulty(gameState.getDifficulty());
+        colorPair = ColorPair.getByDifficulty(gameState.getDifference());
         return colorPair;
     }
 

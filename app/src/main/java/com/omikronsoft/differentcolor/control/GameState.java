@@ -8,16 +8,16 @@ package com.omikronsoft.differentcolor.control;
 public class GameState {
     private final int MAX_LIVES = 3;
     private final int START_SCORE = 0;
-    private final int START_DIFFICULTY = 40;
+    private final int START_DIFFERENCE = 80;
 
     private int lives = MAX_LIVES;
     private int score = START_SCORE;
-    private int difficulty = START_DIFFICULTY;
+    private int difference = START_DIFFERENCE;
 
     public void reset(){
         lives = MAX_LIVES;
         score = START_SCORE;
-        difficulty = START_DIFFICULTY;
+        difference = START_DIFFERENCE;
     }
 
     public int getLives() {
@@ -28,8 +28,8 @@ public class GameState {
         return score;
     }
 
-    public int getDifficulty() {
-        return difficulty;
+    public int getDifference() {
+        return difference;
     }
 
     public void incrementScore(){
@@ -40,7 +40,7 @@ public class GameState {
         lives --;
     }
 
-    public void increaseDifficulty(){
-        difficulty ++;
+    public void decrementDifference(){
+        difference = difference - 1 < 1 ? 1 : difference - 1;
     }
 }

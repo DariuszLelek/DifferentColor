@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Different Color</string>
+    <string name="score">score</string>
 </resources>
