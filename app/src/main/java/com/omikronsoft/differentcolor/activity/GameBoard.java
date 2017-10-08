@@ -21,6 +21,7 @@ import java.util.Locale;
 public class GameBoard extends AppCompatActivity {
     private GameControl gameController;
     private int progressBarUpdateDelay = 25;
+    private int gameOverSleepDelay = 500;
     private int time;
     private boolean timerRunning = false;
     private TextView livesView, scoreView;
@@ -90,19 +91,35 @@ public class GameBoard extends AppCompatActivity {
     }
 
     private void updateViews() {
-        livesView.setText(String.format(Locale.ENGLISH, "%d", gameState.getLives()));
+        livesView.setText(getLivesString());
         scoreView.setText(String.format(Locale.ENGLISH, "%d", gameState.getScore()));
         scoreView.setTextColor(ContextCompat.getColor(getApplicationContext(), LevelColor.getByValue(gameState.getLevel()).getColor()));
     }
 
+    private String getLivesString(){
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<gameState.getLives(); i++){
+            sb.append(getString(R.string.life_indicator));
+        }
+        return sb.toString();
+    }
+
     private void processGameAction() {
         if (gameController.isGameOver()) {
-            // TODO sleep 1 sec or something
+            pauseThread(gameOverSleepDelay);
             endGame();
         } else {
             gameController.nextLevel();
             updateViews();
             resetTimer();
+        }
+    }
+
+    private void pauseThread(int milliseconds){
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

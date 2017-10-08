@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Different Color</string>
     <string name="score">score</string>
+    <string name="life_indicator">I</string>
     <string name="default_lives">III</string>
     <string name="default_score">0</string>
     <string name="start_new_game">Play</string>
