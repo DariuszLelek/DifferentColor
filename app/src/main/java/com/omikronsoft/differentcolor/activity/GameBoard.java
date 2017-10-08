@@ -19,9 +19,10 @@ import com.omikronsoft.differentcolor.control.color.LevelColor;
 import java.util.Locale;
 
 public class GameBoard extends AppCompatActivity {
+    private static final int GAME_OVER_SLEEP_DELAY = 500;
+    private static final int PROGRESS_BAR_UPDATE_DELAY = 25;
+
     private GameControl gameController;
-    private int progressBarUpdateDelay = 25;
-    private int gameOverSleepDelay = 500;
     private int time;
     private boolean timerRunning = false;
     private TextView livesView, scoreView;
@@ -106,7 +107,7 @@ public class GameBoard extends AppCompatActivity {
 
     private void processGameAction() {
         if (gameController.isGameOver()) {
-            pauseThread(gameOverSleepDelay);
+            pauseThread(GAME_OVER_SLEEP_DELAY);
             endGame();
         } else {
             gameController.nextLevel();
@@ -140,14 +141,14 @@ public class GameBoard extends AppCompatActivity {
             public void run() {
                 while (timerRunning) {
                     progressBar.setProgress(time);
-                    time -= progressBarUpdateDelay;
+                    time -= PROGRESS_BAR_UPDATE_DELAY;
 
                     if (time < 0) {
                         timerRunning = false;
                         runOnUiThread(getProcessActionRunnable());
                     } else {
                         try {
-                            Thread.sleep(progressBarUpdateDelay);
+                            Thread.sleep(PROGRESS_BAR_UPDATE_DELAY);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
