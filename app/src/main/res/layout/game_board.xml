@@ -21,9 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:text="III"
-            android:textAlignment="textStart"
+            android:gravity="start|center"
             android:textColor="@android:color/black"
             android:textSize="36sp"/>
 
@@ -33,9 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
             android:textSize="36sp"
             android:textStyle="bold"/>
 
@@ -43,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:orientation="horizontal">
 
             <Space

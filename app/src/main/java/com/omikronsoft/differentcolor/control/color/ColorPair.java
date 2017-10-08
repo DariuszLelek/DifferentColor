@@ -1,4 +1,4 @@
-package com.omikronsoft.differentcolor.control.model;
+package com.omikronsoft.differentcolor.control.color;
 
 /**
  * Created by Dariusz Lelek on 10/8/2017.
@@ -13,7 +13,7 @@ public class ColorPair {
         this.differentColor = differentColor;
     }
 
-    public static ColorPair getByDifficulty(int difficulty){
+    public static ColorPair getByDifficulty(int difficulty) {
         int color = ColorGenerator.getRandomColor();
         int differentColor = ColorGenerator.getDifferentColor(color, difficulty);
         return new ColorPair(color, differentColor);

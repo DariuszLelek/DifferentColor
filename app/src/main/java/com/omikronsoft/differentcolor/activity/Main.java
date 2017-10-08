@@ -26,10 +26,10 @@ public class Main extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1 && resultCode == RESULT_OK){
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             int score = (int) extras.get(getString(R.string.score));
-
+            // TODO
         }
     }
 }

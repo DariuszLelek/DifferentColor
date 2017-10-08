@@ -1,11 +1,9 @@
 package com.omikronsoft.differentcolor.control;
 
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.omikronsoft.differentcolor.control.model.ColorPair;
+import com.omikronsoft.differentcolor.control.color.ColorPair;
 
-import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -13,38 +11,28 @@ import java.util.Random;
  * dariusz.lelek@gmail.com
  */
 
-public class GameController implements GameControl{
+public class GameController implements GameControl {
     private final Button[] colorButtons;
-    private final TextView livesView, scoreView;
-    private final GameState gameState = new GameState();
+    private final GameState gameState;
 
-    private ColorPair colorPair;
     private int differentColorButtonIdx = -1;
 
-    public GameController(Button[] colorButtons, TextView livesView, TextView scoreView) {
+    public GameController(Button[] colorButtons, GameState gameState) {
+        this.gameState = gameState;
         this.colorButtons = colorButtons;
-        this.livesView = livesView;
-        this.scoreView = scoreView;
     }
 
     @Override
-    public void processButtonClick(int buttonIdx){
-        if(correctButtonGuess(buttonIdx)){
+    public void processButtonClick(int buttonIdx) {
+        if (correctButtonGuess(buttonIdx)) {
             gameState.incrementScore();
-        }else{
+        } else {
             gameState.decrementLives();
         }
-
-        nextLevel();
     }
 
     @Override
-    public void processTimeOut(){
-
-    }
-
-    @Override
-    public void startNewGame(){
+    public void startNewGame() {
         gameState.reset();
         nextLevel();
     }
@@ -59,19 +47,17 @@ public class GameController implements GameControl{
         return gameState.getLives() <= 0;
     }
 
-    private boolean correctButtonGuess(int buttonIdx){
+    @Override
+    public void nextLevel() {
+        gameState.increaseDifficulty();
+        setButtonsColor(getNewColorPair());
+    }
+
+    private boolean correctButtonGuess(int buttonIdx) {
         return buttonIdx == differentColorButtonIdx;
     }
 
-    private void nextLevel(){
-        setButtonsColor(getNewColorPair());
-
-        gameState.decrementDifference();
-        livesView.setText(String.format(Locale.ENGLISH, "%d", gameState.getLives()));
-        scoreView.setText(String.format(Locale.ENGLISH, "%d", gameState.getScore()));
-    }
-
-    private void setButtonsColor(ColorPair colorPair){
+    private void setButtonsColor(ColorPair colorPair) {
         int defaultColor = colorPair.getColor();
         int differentColor = colorPair.getDifferentColor();
 
@@ -79,20 +65,19 @@ public class GameController implements GameControl{
         setDifferentColorOnButton(differentColor);
     }
 
-    private void setDefaultColorOnButtons(int defaultColor){
-        for(Button button : colorButtons){
+    private void setDefaultColorOnButtons(int defaultColor) {
+        for (Button button : colorButtons) {
             button.setBackgroundColor(defaultColor);
         }
     }
 
-    private void setDifferentColorOnButton(int differentColor){
+    private void setDifferentColorOnButton(int differentColor) {
         differentColorButtonIdx = new Random().nextInt(colorButtons.length);
         colorButtons[differentColorButtonIdx].setBackgroundColor(differentColor);
     }
 
-    private ColorPair getNewColorPair(){
-        colorPair = ColorPair.getByDifficulty(gameState.getDifference());
-        return colorPair;
+    private ColorPair getNewColorPair() {
+        return ColorPair.getByDifficulty(gameState.getDifference());
     }
 
 }

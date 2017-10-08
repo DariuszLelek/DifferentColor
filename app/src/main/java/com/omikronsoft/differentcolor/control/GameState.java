@@ -6,18 +6,36 @@ package com.omikronsoft.differentcolor.control;
  */
 
 public class GameState {
-    private final int MAX_LIVES = 3;
-    private final int START_SCORE = 0;
-    private final int START_DIFFERENCE = 80;
+    private static final int START_LEVEL = 1;
+    private static final int MAX_LIVES = 3;
+    private static final int MAX_LEVEL = 3;
+    private static final int START_SCORE = 0;
+    private static final int START_DIFFERENCE = 75;
+    private static final int START_TIME = 3 * 1000;
+    private static final int MIN_TIME = 500;
+    private static final int THRESHOLD = 15;
+    private static final int TIME_DIFF = (START_TIME - MIN_TIME) / START_DIFFERENCE;
 
-    private int lives = MAX_LIVES;
-    private int score = START_SCORE;
-    private int difference = START_DIFFERENCE;
+    private int level, lives, score, difference, time;
 
-    public void reset(){
+    public GameState() {
+        reset();
+    }
+
+    void reset() {
+        time = START_TIME;
+        level = START_LEVEL;
         lives = MAX_LIVES;
         score = START_SCORE;
         difference = START_DIFFERENCE;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public int getTime() {
+        return time;
     }
 
     public int getLives() {
@@ -28,19 +46,43 @@ public class GameState {
         return score;
     }
 
-    public int getDifference() {
+    int getDifference() {
         return difference;
     }
 
-    public void incrementScore(){
-        score ++;
+    void incrementScore() {
+        score++;
     }
 
-    public void decrementLives(){
-        lives --;
+    void decrementLives() {
+        lives--;
     }
 
-    public void decrementDifference(){
-        difference = difference - 1 < 1 ? 1 : difference - 1;
+    void increaseDifficulty() {
+        updateLevel();
+
+        difference = getDecrementedDifference();
+        time = getDecrementTime();
+    }
+
+    private void updateLevel() {
+        if (score > 0 && score % THRESHOLD == 0) {
+            level = getIncrementedLevel();
+        }
+    }
+
+    private int getIncrementedLevel() {
+        int incremented = level + 1;
+        return incremented > MAX_LEVEL ? MAX_LEVEL : incremented;
+    }
+
+    private int getDecrementTime() {
+        int decremented = time - TIME_DIFF;
+        return decremented < MIN_TIME ? MIN_TIME : decremented;
+    }
+
+    private int getDecrementedDifference() {
+        int decremented = difference - 1;
+        return decremented < 1 ? 1 : decremented;
     }
 }

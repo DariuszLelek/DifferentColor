@@ -1,4 +1,4 @@
-package com.omikronsoft.differentcolor.control.model;
+package com.omikronsoft.differentcolor.control.color;
 
 import android.graphics.Color;
 
@@ -9,18 +9,18 @@ import java.util.Random;
  * dariusz.lelek@gmail.com
  */
 
-public class ColorGenerator {
+class ColorGenerator {
     private static final int UPPER_LIMIT = 256;
 
-    public static int getRandomColor(){
+    static int getRandomColor() {
         Random random = new Random();
         int red = random.nextInt(UPPER_LIMIT);
         int green = random.nextInt(UPPER_LIMIT);
         int blue = random.nextInt(UPPER_LIMIT);
-        return Color.rgb(red,  green, blue);
+        return Color.rgb(red, green, blue);
     }
 
-    public static int getDifferentColor(int color, int difference) {
+    static int getDifferentColor(int color, int difference) {
         DiffByChannel dbc = getDiffByChannel(difference);
 
         int red = getChannelValue(Color.red(color), dbc.getRed());
@@ -30,8 +30,9 @@ public class ColorGenerator {
         return Color.rgb(red, green, blue);
     }
 
-    private static DiffByChannel getDiffByChannel(int difference){
+    private static DiffByChannel getDiffByChannel(int difference) {
         Random random = new Random();
+
         int first = random.nextInt(difference);
         int second = Math.max(random.nextInt(difference - first), 0);
         int third = Math.max(difference - (first + second), 0);
@@ -39,7 +40,7 @@ public class ColorGenerator {
         return new DiffByChannel(first, second, third);
     }
 
-    private static int getChannelValue(int channel, int channelDiff){
+    private static int getChannelValue(int channel, int channelDiff) {
         return channel + channelDiff >= UPPER_LIMIT ? channel - channelDiff : channel + channelDiff;
     }
 
