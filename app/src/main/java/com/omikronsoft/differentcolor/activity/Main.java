@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.omikronsoft.differentcolor.R;
+import com.omikronsoft.differentcolor.util.PrefsHolder;
 
 import java.util.Locale;
 
@@ -25,6 +26,7 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.main);
 
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
+        PrefsHolder.setPrefs(prefs);
         soundButton = (ImageButton) findViewById(R.id.button_sound);
 
         refreshSoundButtonGraphics();
@@ -63,8 +65,12 @@ public class Main extends AppCompatActivity {
         refreshSoundButtonGraphics();
     }
 
+    private boolean isSoundEnabled(){
+        return prefs.getBoolean(getString(R.string.sound_enabled_key), true);
+    }
+
     private void refreshSoundButtonGraphics(){
-        boolean soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
+        boolean soundEnabled = isSoundEnabled();
         if(soundEnabled){
             soundButton.setImageResource(R.drawable.ic_volume_up_black_100dp);
         }else{
