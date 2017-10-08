@@ -7,6 +7,7 @@
     <string name="exit_game">Quit</string>
     <string name="high_score">High Score</string>
     <string name="default_high_score">0</string>
-    <string name="high_score_key">high_score_key</string>
 
+    <string name="high_score_key">high_score_key</string>
+    <string name="sound_enabled_key">sound_enabled_key</string>
 </resources>

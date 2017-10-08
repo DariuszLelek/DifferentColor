@@ -6,14 +6,18 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.omikronsoft.differentcolor.R;
 
 import java.util.Locale;
 
+import static com.omikronsoft.differentcolor.R.string.score;
+
 public class Main extends AppCompatActivity {
     private SharedPreferences prefs;
+    private ImageButton soundButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,9 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.main);
 
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
+        soundButton = (ImageButton) findViewById(R.id.button_sound);
+
+        refreshSoundButtonGraphics();
         refreshHighScore();
     }
 
@@ -43,7 +50,25 @@ public class Main extends AppCompatActivity {
                 updateHighScore(score);
                 refreshHighScore();
             }
+        }
+    }
 
+    public void processVoiceButtonClick(View view){
+        boolean soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
+
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean(getString(R.string.sound_enabled_key), !soundEnabled);
+        edit.apply();
+
+        refreshSoundButtonGraphics();
+    }
+
+    private void refreshSoundButtonGraphics(){
+        boolean soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
+        if(soundEnabled){
+            soundButton.setImageResource(R.drawable.ic_volume_up_black_100dp);
+        }else{
+            soundButton.setImageResource(R.drawable.ic_volume_off_black_100dp);
         }
     }
 
