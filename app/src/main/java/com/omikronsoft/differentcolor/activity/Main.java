@@ -3,6 +3,7 @@ package com.omikronsoft.differentcolor.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,8 +14,6 @@ import android.widget.TextView;
 import com.omikronsoft.differentcolor.R;
 
 import java.util.Locale;
-
-import static com.omikronsoft.differentcolor.R.string.score;
 
 public class Main extends AppCompatActivity {
     private SharedPreferences prefs;
