@@ -16,15 +16,15 @@ import java.util.Map;
 public class AudioController {
     private static final Map<AudioClip, MediaPlayer> CACHED_PLAYERS = new HashMap<>();
 
-    public static void play(Context context, AudioClip audioClip, boolean soundEnabled){
-        if(soundEnabled){
-            MediaPlayer mp = getPlayer(audioClip, context);
-
-            // TODO fix sound play delay
-            mp.seekTo(0);
-            mp.start();
-        }
-    }
+//    public static void play(Context context, AudioClip audioClip, boolean soundEnabled){
+//        if(soundEnabled){
+//            MediaPlayer mp = getPlayer(audioClip, context);
+//
+//            // TODO fix sound play delay
+//            mp.seekTo(0);
+//            mp.start();
+//        }
+//    }
 
     private static MediaPlayer getPlayer(AudioClip clip, Context context){
         synchronized (CACHED_PLAYERS){

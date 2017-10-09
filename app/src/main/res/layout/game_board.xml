@@ -67,67 +67,80 @@
         android:layout_weight="17"
         android:orientation="vertical">
 
-        <TableLayout
-            android:id="@+id/color_grid"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
-            <TableRow
-                android:id="@+id/row1"
+            <TableLayout
+                android:id="@+id/color_grid"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
+                >
 
-                <Button
-                    android:id="@+id/button1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginRight="2dp"
-                    android:soundEffectsEnabled="false"
-                    android:layout_weight="1"
-                    android:background="@android:color/holo_green_light"/>
+                <TableRow
+                    android:id="@+id/row1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="2dp"
-                    android:soundEffectsEnabled="false"
-                    android:layout_weight="1"
-                    android:background="@android:color/holo_green_light"/>
-            </TableRow>
+                    <Button
+                        android:id="@+id/button1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_green_light"
+                        android:soundEffectsEnabled="false"/>
 
-            <TableRow
-                android:id="@+id/row2"
+                    <Button
+                        android:id="@+id/button2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_green_light"
+                        android:soundEffectsEnabled="false"/>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/row2"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/button3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_green_light"
+                        android:soundEffectsEnabled="false"/>
+
+                    <Button
+                        android:id="@+id/button4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_green_light"
+                        android:soundEffectsEnabled="false"/>
+                </TableRow>
+
+            </TableLayout>
+
+            <ImageView
+                android:id="@+id/effect_layer"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="match_parent"
+                />
 
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="2dp"
-                    android:soundEffectsEnabled="false"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/holo_green_light"/>
+        </FrameLayout>
 
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="2dp"
-                    android:soundEffectsEnabled="false"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/holo_green_light"/>
-            </TableRow>
-
-        </TableLayout>
     </LinearLayout>
 
     <LinearLayout

@@ -8,7 +8,7 @@ package com.omikronsoft.differentcolor.control;
 public interface GameControl {
     void startNewGame();
 
-    boolean rightButtonGuessProcessed(int buttonIdx);
+    void processButtonClick(int buttonIdx);
 
     void nextLevel();
 

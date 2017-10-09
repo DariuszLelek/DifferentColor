@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -45,6 +47,19 @@ public class GameBoard extends AppCompatActivity {
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
         soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
         gameEnded = false;
+
+        ImageView effectLayer = (ImageView) findViewById(R.id.effect_layer);
+
+        effectLayer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                float x = event.getX();
+                float y = event.getY();
+
+                return false;
+            }
+        });
 
         Button[] colorButtons = getColorButtons();
         gameState = new GameState();
@@ -94,11 +109,7 @@ public class GameBoard extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(gameController.rightButtonGuessProcessed(buttonIdx)){
-                    AudioController.play(getApplicationContext(), AudioClip.SCORE_UP, soundEnabled);
-                }else{
-                    AudioController.play(getApplicationContext(), AudioClip.LIFE_LOST, soundEnabled);
-                }
+                gameController.processButtonClick(buttonIdx);
                 processGameAction();
             }
         };
@@ -155,7 +166,7 @@ public class GameBoard extends AppCompatActivity {
                     progressBar.setProgress(time);
                     time -= PROGRESS_BAR_UPDATE_DELAY;
 
-                    if (time < 0 && timerRunning) {
+                    if (!gameEnded && time < 0 && timerRunning) {
                         timerRunning = false;
                         runOnUiThread(getProcessActionRunnable());
                     } else {
@@ -174,18 +185,15 @@ public class GameBoard extends AppCompatActivity {
         return new Runnable() {
             @Override
             public void run() {
-                gameController.rightButtonGuessProcessed(-1);
+                gameController.processButtonClick(-1);
                 processGameAction();
-                AudioController.play(getApplicationContext(), AudioClip.LIFE_LOST, soundEnabled);
             }
         };
     }
 
     private void endGame() {
         if(!gameEnded){
-            timerRunning = false;
             gameEnded = true;
-            AudioController.play(this, AudioClip.GAME_OVER, soundEnabled);
             Intent result = new Intent();
             result.putExtra(getString(R.string.score), gameController.getScore());
             setResult(RESULT_OK, result);

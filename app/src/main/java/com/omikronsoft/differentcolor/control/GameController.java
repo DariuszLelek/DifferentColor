@@ -23,13 +23,11 @@ public class GameController implements GameControl {
     }
 
     @Override
-    public boolean rightButtonGuessProcessed(int buttonIdx) {
+    public void processButtonClick(int buttonIdx) {
         if (correctButtonGuess(buttonIdx)) {
             gameState.incrementScore();
-            return true;
         } else {
             gameState.decrementLives();
-            return false;
         }
     }
 

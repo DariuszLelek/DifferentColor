@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.omikronsoft.differentcolor.R;
-import com.omikronsoft.differentcolor.util.PrefsHolder;
 
 import java.util.Locale;
 
@@ -26,7 +26,6 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.main);
 
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
-        PrefsHolder.setPrefs(prefs);
         soundButton = (ImageButton) findViewById(R.id.button_sound);
 
         refreshSoundButtonGraphics();
