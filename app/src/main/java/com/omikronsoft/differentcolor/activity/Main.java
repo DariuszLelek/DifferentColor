@@ -3,6 +3,7 @@ package com.omikronsoft.differentcolor.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,12 +25,12 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
         soundButton = (ImageButton) findViewById(R.id.button_sound);
         LinearLayout add_holder = (LinearLayout) findViewById(R.id.add_holder);
         add_holder.addView(AdHolder.getInstance().getAdView(getApplicationContext(), getResources()));
-
-        getApplication();
 
         refreshSoundButtonGraphics();
         refreshHighScore();

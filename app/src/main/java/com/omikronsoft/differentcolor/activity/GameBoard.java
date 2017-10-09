@@ -3,6 +3,7 @@ package com.omikronsoft.differentcolor.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ public class GameBoard extends AppCompatActivity {
         setContentView(R.layout.game_board);
 
         prepareHomeButton();
+
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         SharedPreferences prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
         soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
