@@ -8,11 +8,13 @@ package com.omikronsoft.differentcolor.control;
 public interface GameControl {
     void startNewGame();
 
-    void processButtonClick(int buttonIdx);
+    ButtonClickResult processButtonClickAndGetResult(int buttonIdx);
 
     void nextLevel();
 
     int getScore();
 
     boolean isGameOver();
+
+    void processTimeout();
 }

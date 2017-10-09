@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="level_unknown">#000000</color>
-    <color name="level_1">#7effffff</color>
+    <color name="level_1">#59a80f</color>
     <color name="level_2">#d3af2c</color>
     <color name="level_3">#b12e11</color>
     <color name="button_back">#7dffffff</color>

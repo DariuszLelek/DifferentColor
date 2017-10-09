@@ -6,17 +6,16 @@ import android.content.SharedPreferences;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.omikronsoft.differentcolor.R;
 import com.omikronsoft.differentcolor.control.AudioClip;
 import com.omikronsoft.differentcolor.control.AudioController;
+import com.omikronsoft.differentcolor.control.ButtonClickResult;
 import com.omikronsoft.differentcolor.control.GameControl;
 import com.omikronsoft.differentcolor.control.GameController;
 import com.omikronsoft.differentcolor.control.GameState;
@@ -31,7 +30,7 @@ public class GameBoard extends AppCompatActivity {
     private SharedPreferences prefs;
     private GameControl gameController;
     private int time;
-    private boolean timerRunning = false;
+    private boolean timerRunning;
     private TextView livesView, scoreView;
     private GameState gameState;
     private ProgressBar progressBar;
@@ -46,7 +45,9 @@ public class GameBoard extends AppCompatActivity {
 
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
         soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
+
         gameEnded = false;
+        timerRunning = false;
 
         Button[] colorButtons = getColorButtons();
         gameState = new GameState();
@@ -64,6 +65,7 @@ public class GameBoard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 endGame();
+                endActivity();
             }
         });
     }
@@ -96,8 +98,9 @@ public class GameBoard extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gameController.processButtonClick(buttonIdx);
-                processGameAction();
+                if(!gameEnded){
+                    processButtonClick(buttonIdx);
+                }
             }
         };
     }
@@ -116,13 +119,27 @@ public class GameBoard extends AppCompatActivity {
         return sb.toString();
     }
 
-    private void processGameAction() {
+    private void processButtonClick(int buttonIdx) {
+        ButtonClickResult result = gameController.processButtonClickAndGetResult(buttonIdx);
+        playSoundBasedOnResult(result);
+        processGameStateChange();
+    }
+
+    private void processGameStateChange(){
         if (gameController.isGameOver()) {
-            endGame();
+            processGameOver();
         } else {
             gameController.nextLevel();
             updateViews();
             resetTimer();
+        }
+    }
+
+    private void playSoundBasedOnResult(ButtonClickResult result){
+        if(result == ButtonClickResult.LIFE_LOST){
+            AudioController.play(getApplicationContext(), AudioClip.LIFE_LOST, soundEnabled);
+        }else if (result == ButtonClickResult.SCORE_UP){
+            AudioController.play(getApplicationContext(), AudioClip.SCORE_UP, soundEnabled);
         }
     }
 
@@ -155,7 +172,7 @@ public class GameBoard extends AppCompatActivity {
 
                     if (!gameEnded && time < 0 && timerRunning) {
                         timerRunning = false;
-                        runOnUiThread(getProcessActionRunnable());
+                        runOnUiThread(getTimeoutUiRunnable());
                     } else {
                         try {
                             Thread.sleep(PROGRESS_BAR_UPDATE_DELAY);
@@ -168,24 +185,36 @@ public class GameBoard extends AppCompatActivity {
         };
     }
 
-    private Runnable getProcessActionRunnable() {
+    private Runnable getTimeoutUiRunnable() {
         return new Runnable() {
             @Override
             public void run() {
-                gameController.processButtonClick(-1);
-                processGameAction();
+                AudioController.play(getApplicationContext(), AudioClip.TIMEOUT, soundEnabled);
+                gameController.processTimeout();
+                processGameStateChange();
             }
         };
     }
 
-    private void endGame() {
-        if(!gameEnded){
+    private void endGame(){
+        if(!gameEnded) {
             gameEnded = true;
-            Intent result = new Intent();
-            result.putExtra(getString(R.string.score), gameController.getScore());
-            setResult(RESULT_OK, result);
-            pauseThread(GAME_OVER_SLEEP_DELAY);
-            finish();
         }
+    }
+
+    private void processGameOver() {
+        endGame();
+
+        AudioController.play(getApplicationContext(), AudioClip.GAME_OVER, soundEnabled);
+        pauseThread(GAME_OVER_SLEEP_DELAY);
+
+        endActivity();
+    }
+
+    private void endActivity(){
+        Intent result = new Intent();
+        result.putExtra(getString(R.string.score), gameController.getScore());
+        setResult(RESULT_OK, result);
+        finish();
     }
 }

@@ -2,11 +2,9 @@ package com.omikronsoft.differentcolor.control;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.view.SoundEffectConstants;
 
-import com.omikronsoft.differentcolor.R;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * Created by Dariusz Lelek on 10/8/2017.
@@ -14,24 +12,36 @@ import java.util.Map;
  */
 
 public class AudioController {
-    private static final Map<AudioClip, MediaPlayer> CACHED_PLAYERS = new HashMap<>();
 
-//    public static void play(Context context, AudioClip audioClip, boolean soundEnabled){
-//        if(soundEnabled){
-//            MediaPlayer mp = getPlayer(audioClip, context);
-//
-//            // TODO fix sound play delay
-//            mp.seekTo(0);
-//            mp.start();
-//        }
-//    }
-
-    private static MediaPlayer getPlayer(AudioClip clip, Context context){
-        synchronized (CACHED_PLAYERS){
-            if(!CACHED_PLAYERS.containsKey(clip)){
-                CACHED_PLAYERS.put(clip, MediaPlayer.create(context, clip.getRaw()));
-            }
+    public static void play(Context context, AudioClip audioClip, boolean soundEnabled){
+        if(soundEnabled){
+            playClipInThread(context, audioClip);
         }
-        return CACHED_PLAYERS.get(clip);
+    }
+
+    private static void playClipInThread(final Context context, final AudioClip clip){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MediaPlayer mp = MediaPlayer.create(context, clip.getRaw());
+                mp.start();
+
+                try {
+                    Thread.sleep(mp.getDuration());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }finally {
+                    releaseMp(mp);
+                }
+            }
+        }).start();
+    }
+
+    private static void releaseMp(MediaPlayer mp){
+        if(mp != null){
+            mp.stop();
+            mp.release();
+            mp = null;
+        }
     }
 }

@@ -23,11 +23,13 @@ public class GameController implements GameControl {
     }
 
     @Override
-    public void processButtonClick(int buttonIdx) {
+    public ButtonClickResult processButtonClickAndGetResult(int buttonIdx) {
         if (correctButtonGuess(buttonIdx)) {
             gameState.incrementScore();
+            return ButtonClickResult.SCORE_UP;
         } else {
             gameState.decrementLives();
+            return ButtonClickResult.LIFE_LOST;
         }
     }
 
@@ -44,13 +46,18 @@ public class GameController implements GameControl {
 
     @Override
     public boolean isGameOver() {
-        return gameState.getLives() <= 0;
+        return gameState.getLives() < 0;
     }
 
     @Override
     public void nextLevel() {
         gameState.increaseDifficulty();
         setButtonsColor(getNewColorPair());
+    }
+
+    @Override
+    public void processTimeout() {
+        gameState.decrementLives();
     }
 
     private boolean correctButtonGuess(int buttonIdx) {

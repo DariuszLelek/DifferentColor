@@ -10,7 +10,8 @@ import com.omikronsoft.differentcolor.R;
 public enum AudioClip {
     SCORE_UP(R.raw.score_up),
     GAME_OVER(R.raw.game_over),
-    LIFE_LOST(R.raw.life_lost);
+    LIFE_LOST(R.raw.life_lost),
+    TIMEOUT(R.raw.life_lost);
 
     private final int raw;
 
