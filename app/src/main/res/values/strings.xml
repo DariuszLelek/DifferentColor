@@ -11,4 +11,6 @@
 
     <string name="high_score_key">high_score_key</string>
     <string name="sound_enabled_key">sound_enabled_key</string>
+    <string name="home_button_image_desc">home button image</string>
+    <string name="sound_button_image_desc">sound button image</string>
 </resources>
