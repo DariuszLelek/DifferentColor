@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.omikronsoft.differentcolor.Add.AddHolder;
+import com.omikronsoft.differentcolor.ad.AdHolder;
 import com.omikronsoft.differentcolor.R;
 
 import java.util.Locale;
@@ -27,7 +27,7 @@ public class Main extends AppCompatActivity {
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
         soundButton = (ImageButton) findViewById(R.id.button_sound);
         LinearLayout add_holder = (LinearLayout) findViewById(R.id.add_holder);
-        add_holder.addView(AddHolder.getInstance().getAdView(getApplicationContext(), getResources()));
+        add_holder.addView(AdHolder.getInstance().getAdView(getApplicationContext(), getResources()));
 
         getApplication();
 
@@ -41,7 +41,7 @@ public class Main extends AppCompatActivity {
     }
 
     public void exit(View view) {
-        AddHolder.getInstance().destroy();
+        AdHolder.getInstance().destroy();
         finish();
     }
 

@@ -1,4 +1,4 @@
-package com.omikronsoft.differentcolor.Add;
+package com.omikronsoft.differentcolor.ad;
 
 import android.app.Application;
 import android.content.Context;
@@ -21,15 +21,15 @@ import java.util.concurrent.locks.ReentrantLock;
  * dariusz.lelek@gmail.com
  */
 
-public class AddHolder extends Application{
-    private static AddHolder instance;
+public class AdHolder extends Application{
+    private static AdHolder instance;
     private static final Lock lock = new ReentrantLock();
     private static AdView adView;
 
-    public static AddHolder getInstance(){
+    public static AdHolder getInstance(){
         if(instance == null){
             synchronized (lock){
-                instance = new AddHolder();
+                instance = new AdHolder();
             }
         }
         return instance;

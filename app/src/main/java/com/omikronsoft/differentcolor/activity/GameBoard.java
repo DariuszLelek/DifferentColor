@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.omikronsoft.differentcolor.Add.AddHolder;
+import com.omikronsoft.differentcolor.ad.AdHolder;
 import com.omikronsoft.differentcolor.R;
 import com.omikronsoft.differentcolor.control.AudioClip;
 import com.omikronsoft.differentcolor.control.AudioController;
@@ -48,7 +48,7 @@ public class GameBoard extends AppCompatActivity {
         soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
 
         LinearLayout add_holder = (LinearLayout) findViewById(R.id.add_holder);
-        add_holder.addView(AddHolder.getInstance().getAdView(getApplicationContext(), getResources()));
+        add_holder.addView(AdHolder.getInstance().getAdView(getApplicationContext(), getResources()));
 
         gameEnded = false;
         timerRunning = false;
