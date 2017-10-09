@@ -3,14 +3,14 @@ package com.omikronsoft.differentcolor.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.omikronsoft.differentcolor.Add.AddHolder;
 import com.omikronsoft.differentcolor.R;
 
 import java.util.Locale;
@@ -26,6 +26,10 @@ public class Main extends AppCompatActivity {
 
         prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
         soundButton = (ImageButton) findViewById(R.id.button_sound);
+        LinearLayout add_holder = (LinearLayout) findViewById(R.id.add_holder);
+        add_holder.addView(AddHolder.getInstance().getAdView(getApplicationContext(), getResources()));
+
+        getApplication();
 
         refreshSoundButtonGraphics();
         refreshHighScore();
@@ -37,6 +41,7 @@ public class Main extends AppCompatActivity {
     }
 
     public void exit(View view) {
+        AddHolder.getInstance().destroy();
         finish();
     }
 

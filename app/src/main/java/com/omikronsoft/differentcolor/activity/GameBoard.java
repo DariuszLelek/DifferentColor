@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.omikronsoft.differentcolor.Add.AddHolder;
 import com.omikronsoft.differentcolor.R;
 import com.omikronsoft.differentcolor.control.AudioClip;
 import com.omikronsoft.differentcolor.control.AudioController;
@@ -27,7 +29,6 @@ public class GameBoard extends AppCompatActivity {
     private static final int GAME_OVER_SLEEP_DELAY = 500;
     private static final int PROGRESS_BAR_UPDATE_DELAY = 25;
 
-    private SharedPreferences prefs;
     private GameControl gameController;
     private int time;
     private boolean timerRunning;
@@ -43,8 +44,11 @@ public class GameBoard extends AppCompatActivity {
 
         prepareHomeButton();
 
-        prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
+        SharedPreferences prefs = this.getSharedPreferences("DifferentColor", Context.MODE_PRIVATE);
         soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
+
+        LinearLayout add_holder = (LinearLayout) findViewById(R.id.add_holder);
+        add_holder.addView(AddHolder.getInstance().getAdView(getApplicationContext(), getResources()));
 
         gameEnded = false;
         timerRunning = false;
@@ -215,6 +219,8 @@ public class GameBoard extends AppCompatActivity {
         Intent result = new Intent();
         result.putExtra(getString(R.string.score), gameController.getScore());
         setResult(RESULT_OK, result);
-        finish();
+
+
+        onBackPressed();
     }
 }
