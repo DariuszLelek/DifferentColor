@@ -48,19 +48,6 @@ public class GameBoard extends AppCompatActivity {
         soundEnabled = prefs.getBoolean(getString(R.string.sound_enabled_key), true);
         gameEnded = false;
 
-        ImageView effectLayer = (ImageView) findViewById(R.id.effect_layer);
-
-        effectLayer.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                float x = event.getX();
-                float y = event.getY();
-
-                return false;
-            }
-        });
-
         Button[] colorButtons = getColorButtons();
         gameState = new GameState();
         livesView = (TextView) findViewById(R.id.text_lives);
